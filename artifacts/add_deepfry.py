@@ -2,7 +2,7 @@ from PIL import Image
 import deeppyer, asyncio
 
 async def fry():
-    img = Image.open('./mqdefault.jpg')
+    img = Image.open('../mqdefault.jpg')
     img = await deeppyer.deepfry(img)
     img.save('./fried.jpg')
 

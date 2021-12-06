@@ -28,9 +28,8 @@ def apply_compression_artifacts(im, q, w, h):
 
     return im
 
-def jpegBlur(path, q=9, add_baidu_artifact=False, artifact_factor=1):
-    im = Image.open(path)
 
+def jpegBlur(im, q=9, add_baidu_artifact=False, artifact_factor=1):
     w, h = im.size
     # Load image
     # repeated apply compression to generate compression artifacts
@@ -43,5 +42,4 @@ def jpegBlur(path, q=9, add_baidu_artifact=False, artifact_factor=1):
     im.show()
     im.save("./patina.jpg", "JPEG", quality=q)
 
-
-jpegBlur("./IMG_20210629_165616_mh1624966004274.jpg", 10, True, 10)
+# jpegBlur(im = Image.open(path), 10, True, 10)
