@@ -1,21 +1,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Drop} from "./Drop";
 import "./index.css"
+import {Drop} from "./Drop";
 
 class App extends React.Component {
     render() {
         return (
-            <div
-                className={"justify-evenly bg-gradient-to-l from-green-200 to-yellow-100 min-h-screen min-w-screen " +
-                "flex flex-col items-stretch text-center gap-32 p-32"}>
-                <span
-                    className={"text-9xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-green-500 to-yellow-600"}>
-                  PATINA
-                </span>
-                <Drop/>
-            </div>
+            <div className={"grid place-items-center h-screen bg-gradient-to-tr from-blue-400 to-green-400"}>
+                <div
+                    className="flex flex-col justify-center items-center max-w-5xl rounded-2xl overflow-hidden shadow-lg mx-auto my-8 bg-white p-16">
+                     <h1
+                         className={"text-9xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-green-400 to-blue-500"}>
+                        PATINA
+                    </h1>
+                    <div className="w-full">
+                        <p className={"text-3xl text-transparent bg-clip-text bg-gradient-to-br from-green-400 to-blue-500 py-6"}>
+                            Increase the street cred of your memes! Age your memes by adding patina and compression
+                            artifacts.
+                        </p>
+                    </div>
 
+                    <div className="py-4 w-full">
+                        <Drop/>
+                    </div>
+                </div>
+            </div>
         );
     }
 }
