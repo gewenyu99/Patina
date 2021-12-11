@@ -2,14 +2,31 @@ import React, {useCallback, useState} from 'react'
 import {useDropzone} from 'react-dropzone'
 import {UploadIcon} from "@heroicons/react/solid";
 import {InboxIcon, InboxInIcon} from "@heroicons/react/outline";
+import axios from "axios";
 
 export function Drop() {
     const [fileType, setFileType] = useState("")
     const [fileName, setFileName] = useState("")
+    const [file, setFile] = useState("")
     const onDrop = useCallback(acceptedFiles => {
         const file = acceptedFiles[0]
         setFileName(file["name"])
         setFileType(file["type"])
+
+        const formData = new FormData();
+        formData.append("image", file);
+        axios.post('load', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then(response => {
+                const image = response.data["image"]
+                setFile(image)
+                console.log(response.data["image"].toString())
+            },
+            (error) => {
+                console.log(error);
+            });
 
     }, [])
     const {getRootProps, getInputProps, isDragActive} = useDropzone({
@@ -23,6 +40,7 @@ export function Drop() {
              className={"font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-green-400 to-blue-500"}>
             <input
                 className={"text-3xl flex flex-grow flex-col items-center text-center justify-center"} {...getInputProps()}/>
+             <img src={`data:image/jpeg;base64,${file}`} alt="Red dot" />
             <div
                 className={"text-3xl flex flex-grow flex-col items-center text-center justify-center bg-gradient-to-br from-green-400 to-blue-500 rounded-2xl p-16"}>
                 <div className={"text-white p-6 flex flex-col items-center h-64"}>
@@ -35,7 +53,8 @@ export function Drop() {
                                     <path className="opacity-75" fill="currentColor"
                                           d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                 </svg>
-                                <p>Processing {fileName} ...</p></div> :
+                                <p>Processing {fileName} ...</p>
+                        </div> :
                             <>
                                 {
                                     isDragActive ?

@@ -39,7 +39,6 @@ def jpegBlur(im, q=9, add_baidu_artifact=False, artifact_factor=1):
             im = apply_baidu_filter(im)
         im = apply_compression_artifacts(im, q, w, h)
     im = im.resize((find_resize(w, h, 800)))
-    im.show()
-    im.save("./patina.jpg", "JPEG", quality=q)
+    return im
 
 # jpegBlur(im = Image.open(path), 10, True, 10)
