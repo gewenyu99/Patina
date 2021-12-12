@@ -22,7 +22,7 @@ def load():
         print('err')
         return "Unable to retried the dank memes"
 
-    im = jpegBlur(Image.open(io.BytesIO(file.read())), 10, True, 10)
+    im = jpegBlur(Image.open(io.BytesIO(file.read())), 8, True, 5)
     rawBytes = io.BytesIO()
     im.save(rawBytes, "JPEG")
     rawBytes.seek(0)

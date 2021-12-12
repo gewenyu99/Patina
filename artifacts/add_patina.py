@@ -1,5 +1,5 @@
 import io
-import imageio
+
 import numpy as np
 from PIL import Image
 
@@ -21,7 +21,7 @@ def apply_baidu_filter(im):
 
 def apply_compression_artifacts(im, q, w, h):
     buffer = io.BytesIO()
-    im.save(buffer, "PNG", quality=q)
+    im.save(buffer, "JPEG", quality=q)
     im = Image.open(buffer, "r")
     im = im.resize((find_resize(w, h, 400)))
     im = im.resize((w, h))
@@ -29,16 +29,20 @@ def apply_compression_artifacts(im, q, w, h):
     return im
 
 
-def jpegBlur(im, q=9, add_baidu_artifact=False, artifact_factor=1):
+def jpegBlur(im, q=7, add_baidu_artifact=False, artifact_factor=1):
     w, h = im.size
     # Load image
     # repeated apply compression to generate compression artifacts
-    for i in range(artifact_factor):
-        if add_baidu_artifact:
+    for i in range(artifact_factor + 1):
+        im = apply_compression_artifacts(im, q, w, h)
+
+    # Apply the "Baidu" filter after compression artifacts so the green tint doesn't get compressed away
+    if add_baidu_artifact:
+        for i in range(artifact_factor + 1):
             # Use numpy to map out RGB
             im = apply_baidu_filter(im)
-        im = apply_compression_artifacts(im, q, w, h)
-    im = im.resize((find_resize(w, h, 800)))
+
+    im = im.resize((find_resize(w, h, 400)))
     return im
 
 # jpegBlur(im = Image.open(path), 10, True, 10)
